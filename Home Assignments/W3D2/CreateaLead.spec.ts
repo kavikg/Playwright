@@ -1,0 +1,30 @@
+import test, { expect } from "@playwright/test";
+test('Create Lead leaftap', async ({ page }) => {
+    await page.goto("http://leaftaps.com/opentaps/control/main");
+    await page.locator("//input[@id='username']").fill("Demosalesmanager");
+    await page.locator("//input[@id='password']").fill("crmsfa");
+    await page.locator("//input[@class='decorativeSubmit']").click();
+    await page.waitForTimeout(5000);
+    await page.locator("//a[contains(text(),'CRM/SFA')]").click();
+    await page.locator("//a[contains(text(),'Create Lead')]").click();
+    await page.waitForTimeout(5000);
+    await page.locator("//input[@id='createLeadForm_companyName']").fill("XYZ");
+    await page.locator("//input[@id='createLeadForm_firstName']").fill("Kavitha");
+    await page.locator("//input[@id='createLeadForm_lastName']").fill("K G");
+    await page.locator("//input[@id='createLeadForm_personalTitle']").fill("Mrs");
+    await page.locator("//input[@id='createLeadForm_generalProfTitle']").fill("Personal");
+    await page.locator("//input[@id='createLeadForm_departmentName']").fill("QEA");
+    await page.locator("//input[@id='createLeadForm_annualRevenue']").fill("234567");
+    await page.locator("//input[@id='createLeadForm_primaryPhoneNumber']").fill("1234567890");
+    await page.locator("//input[@name='submitButton']").click();
+    await page.waitForTimeout(6000);
+    const firstname = await page.locator("//span[@id='viewLead_firstName_sp']").innerText();
+    const lastname = await page.locator("//span[@id='viewLead_lastName_sp']").innerText();
+    const companyname = await page.locator("//span[@id='viewLead_companyName_sp']").innerText();
+    const status = await page.locator("//span[@id='viewLead_statusId_sp']").innerText();
+    await expect(firstname).toContain("Kavitha");
+    await expect(lastname).toContain("K G");
+    await expect(companyname).toContain("XYZ");
+    await expect(status).toContain("Assigned");
+    console.log(await page.title());
+})
